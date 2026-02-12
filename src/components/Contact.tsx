@@ -3,7 +3,6 @@ import { Mail, Phone, Linkedin, Github, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/hooks/use-toast";
 
 const contactInfo = [
   { icon: Mail, label: "ashish7371857965@gmail.com", href: "mailto:ashish7371857965@gmail.com" },
@@ -13,12 +12,13 @@ const contactInfo = [
 ];
 
 const Contact = () => {
-  const { toast } = useToast();
   const [form, setForm] = useState({ name: "", email: "", message: "" });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    toast({ title: "Message sent!", description: "Thank you for reaching out. I'll get back to you soon." });
+    const subject = encodeURIComponent(`Portfolio Contact from ${form.name}`);
+    const body = encodeURIComponent(`Name: ${form.name}\nEmail: ${form.email}\n\nMessage:\n${form.message}`);
+    window.location.href = `mailto:ashish7371857965@gmail.com?subject=${subject}&body=${body}`;
     setForm({ name: "", email: "", message: "" });
   };
 
