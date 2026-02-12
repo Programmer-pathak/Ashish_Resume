@@ -16,8 +16,17 @@ const Contact = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const subject = encodeURIComponent(`Portfolio Contact from ${form.name}`);
-    const body = encodeURIComponent(`Name: ${form.name}\nEmail: ${form.email}\n\nMessage:\n${form.message}`);
+    const name = form.name.trim().slice(0, 100);
+    const email = form.email.trim().slice(0, 255);
+    const message = form.message.trim().slice(0, 5000);
+
+    // Basic validation
+    if (name.length < 2 || message.length < 10 || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return;
+    }
+
+    const subject = encodeURIComponent(`Portfolio Contact from ${name}`);
+    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
     window.location.href = `mailto:ashish7371857965@gmail.com?subject=${subject}&body=${body}`;
     setForm({ name: "", email: "", message: "" });
   };
